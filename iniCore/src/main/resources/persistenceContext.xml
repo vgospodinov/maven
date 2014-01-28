@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+
+
+    <bean id="dataSource" 
+        class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+        destroy-method="close">
+        <property name="driverClass"><value>${ini.db.driver}</value></property>
+        <property name="jdbcUrl"><value>${ini.db.url}</value></property>
+        <property name="user"><value>${ini.db.user}</value></property>
+        <property name="password"><value>${ini.db.password}</value></property>
+        <property name="initialPoolSize"><value>${ini.db.pool.connections.initial}</value></property>
+        <property name="minPoolSize"><value>${ini.db.pool.connections.min}</value></property>
+        <property name="maxPoolSize"><value>${ini.db.pool.connections.max}</value></property>
+        <property name="idleConnectionTestPeriod" value="${ini.db.pool.idleTestPeriod}"/>
+        <property name="maxIdleTime" value="${ini.db.pool.maxIdleTime}"/>
+        <property name="acquireIncrement"><value>${ini.db.pool.acquireIncrement}</value></property>
+        <property name="maxStatements"><value>${ini.db.pool.maxStatementsPerConnection}</value></property>  <!-- 0 means: statement caching is turned off.  -->
+        <property name="numHelperThreads"><value>${ini.db.pool.numHelperThreads}</value></property>  <!-- 3 is default -->
+    </bean>
+
+
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
+        scope="prototype">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" />
+        <property name="hibernateProperties">
+            <props>
+                <!-- general Hibernate -->
+                <prop key="hibernate.dialect">${ini.db.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${ini.db.sql.log}</prop>
+                <prop key="hibernate.connection.provider_class">net.sf.hibernate.connection.C3P0ConnectionProvider</prop>
+                <prop key="hibernate.c3p0.min_size">${ini.db.pool.connections.min}</prop>
+                <prop key="hibernate.c3p0.max_size">${ini.db.pool.connections.max}</prop>
+                <prop key="hibernate.c3p0.timeout">${ini.db.pool.timeout}</prop> <!--in seconds-->
+                <prop key="hibernate.c3p0.max_statements_per_connection">${ini.db.pool.maxStatementsPerConnection}</prop>
+                <prop key="hibernate.c3p0.max_statements">${ini.db.pool.maxStatements}</prop>
+                <prop key="hibernate.c3p0.idle_test_period">${ini.db.pool.idleTestPeriod}</prop> <!--in seconds-->
+                <prop key="hibernate.c3p0.num_helper_threads">${ini.db.pool.numHelperThreads}</prop> <!--Ignored by Hibernate's Environment class-->
+                <prop key="hibernate.c3p0.acquire_increment">${ini.db.pool.acquireIncrement}</prop>
+                <!-- Hibernate Search Related 
+                <prop key="hibernate.search.default.directory_provider">org.hibernate.search.store.FSDirectoryProvider</prop>
+                <prop key="hibernate.search.default.indexBase">/c:/some/place/indices</prop>
+                <prop key="hibernate.search.worker.batch_size">10</prop>
+                -->
+            </props>
+        </property>
+
+        <!-- when using Hibernate SessionFactory, it's necessary to list all mapped classes here -->
+        <!-- would not be the case if EntityManager would be used, because JPA 2 has a auto scanning feature -->
+        <property name="annotatedClasses">
+            <list>
+                <value>com.initech.ini.model.EShopOrder</value>
+                <value>com.initech.ini.model.Delivery</value>
+            </list>
+        </property>
+
+
+    </bean>
+
+</beans>

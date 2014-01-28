@@ -1,0 +1,11 @@
+.settings/
+.classpath
+.project
+target/
+bin/
+classes/
+
+
+
+# do not ceckin generated resources
+ini.runtime.properties

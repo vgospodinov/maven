@@ -1,0 +1,90 @@
+<project basedir=".." name="system-independant">
+
+	<target name="clean">
+		<description>
+			clean all modules that are independant form iniMaster
+		</description>
+		<echo message="cleaning independant projects"/>
+		<exec executable="cmd" dir="${basedir}/../ini-maven-plugin/">
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="clean"/>
+	    </exec>
+		<exec executable="cmd" dir="${basedir}/../iniRuntimeConfig/">
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="clean"/>
+	    </exec>
+	</target>
+	
+	<target name="eclipse:clean">
+		<description>
+			eclipse:clean all modules that are independant form iniMaster
+		</description>
+		<echo message="cleaning independant projects"/>
+		<exec executable="cmd" dir="${basedir}/../ini-maven-plugin/">
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="eclipse:clean"/>
+	    </exec>
+		<exec executable="cmd" dir="${basedir}/../iniRuntimeConfig/">
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="eclipse:clean"/>
+	    </exec>
+
+	</target>
+	
+	
+	<target name="eclipse:eclipse">
+		<description>
+			eclipse:eclipse all modules that are independant form iniMaster
+		</description>
+		<echo message="cleaning independant projects"/>
+		<exec executable="cmd" dir="${basedir}/../ini-maven-plugin/">
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="eclipse:eclipse"/>
+	    </exec>
+		<exec executable="cmd" dir="${basedir}/../iniRuntimeConfig/">
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="eclipse:eclipse"/>
+	    </exec>
+		<exec executable="cmd" dir="${basedir}/../iniDistribution/">
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="eclipse:eclipse"/>
+	    </exec>
+	</target>
+	
+	
+	<target name="install">
+		<description>
+			install all modules that are independant form iniMaster
+		</description>
+		<echo message="cleaning independant projects"/>
+		<exec executable="cmd" dir="${basedir}/../ini-maven-plugin/">
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="install"/>
+	    </exec>
+		<exec executable="cmd" dir="${basedir}/../iniRuntimeConfig/">
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="install"/>
+	    </exec>
+
+	</target>
+	
+
+</project>

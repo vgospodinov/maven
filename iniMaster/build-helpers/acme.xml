@@ -1,0 +1,4 @@
+<project basedir=".." name="acme-local" default="_workspace">
+	<property name="client" value="acme"/>
+	<import file="common.xml"/>
+</project>

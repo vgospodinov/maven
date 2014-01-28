@@ -1,0 +1,13 @@
+<project name="system-distribution" default="ini:distribute" basedir=".">
+	
+	<loadproperties srcfile="distribution.properties"/>	
+	
+	<target name="ini:distribute">
+         
+		
+		
+    </target>
+	
+	
+	
+</project>

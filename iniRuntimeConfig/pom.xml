@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.initech.inisys.client.config</groupId>
+  <artifactId>iniRuntimeConfig</artifactId>
+  
+  <version>1.0.0</version>
+
+  <packaging>pom</packaging>
+ 
+  <name>iniRuntimeConfig</name>
+  <description>
+      iniRuntimeConfig - 
+  </description>
+  
+  <url>http://maven.apache.org</url>
+
+  <modules>
+      <module>modules/coyote-prod</module>
+      <module>modules/coyote-integ</module>
+      <module>modules/coyote-devel</module>
+      <module>modules/coyote-hudson</module>
+      <module>modules/coyote-local</module>
+      
+      <module>modules/acme-prod</module>
+      <module>modules/acme-integ</module>
+      <module>modules/acme-devel</module>
+      <module>modules/acme-hudson</module>
+      <module>modules/acme-local</module>
+      
+      <module>modules/daffy-prod</module>
+      <module>modules/daffy-integ</module>
+      <module>modules/daffy-devel</module>
+      <module>modules/daffy-hudson</module>
+      <module>modules/daffy-local</module>
+      
+      
+  </modules>
+  
+  <build>
+      <plugins>
+            <plugin>
+              <groupId>com.initech.inisys.maven</groupId>
+              <artifactId>ini-maven-plugin</artifactId>
+              <version>1.0-SNAPSHOT</version>
+              <executions>
+                  <execution>
+                      <phase>process-resources</phase>
+                      <goals><goal>config</goal></goals>
+                  </execution>
+              </executions>
+          </plugin>
+      </plugins>
+  </build>
+
+
+</project>

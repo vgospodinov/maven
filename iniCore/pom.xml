@@ -1,0 +1,137 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.initech.inisys</groupId>
+  <artifactId>iniCore</artifactId>
+
+  <parent>
+      <groupId>com.initech.inisys</groupId>
+      <artifactId>iniMaster</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
+      <relativePath>../iniMaster/pom.xml</relativePath>
+  </parent>
+  
+  <packaging>jar</packaging>
+ 
+  <name>iniCore</name>
+  <description>
+      iniCore - code and resources common to all inisys modules
+  </description>
+  
+  <dependencies>
+            
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-core</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-beans</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-aop</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-orm</artifactId>
+	    </dependency>
+	    <dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+		</dependency>
+		 <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+        </dependency>
+        <dependency>
+		    <groupId>com.googlecode.ibaguice.datasource</groupId>
+		    <artifactId>ibaguice-c3p0</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.initech.ini.thirdparty</groupId>
+		    <artifactId>mysql-jdbc-driver</artifactId>
+		</dependency>
+		<dependency>
+             <groupId>com.initech.ini.thirdparty</groupId>
+             <artifactId>oracle-jdbc-java6</artifactId>
+         </dependency>
+		
+		<!-- JSR 330 -->
+		<dependency>
+		    <groupId>org.sonatype.sisu</groupId>
+		    <artifactId>sisu-inject-bean</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <exclusions>
+               <exclusion>
+                  <groupId>commons-pool</groupId>
+                  <artifactId>commons-pool</artifactId>
+               </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-discovery</groupId>
+            <artifactId>commons-discovery</artifactId>
+        </dependency>
+		            
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+        </dependency>
+
+		
+  </dependencies>
+  
+  
+  <build>
+          <!-- 
+      <resources>
+          
+          <resource>
+              <directory>src/main/resources</directory>
+              <filtering>false</filtering>
+              <includes>
+                  <include>**/*.properties</include>
+              </includes>
+          </resource>
+          
+      </resources>
+          -->
+  </build>
+
+</project>

@@ -1,0 +1,21 @@
+<project name="system-config" basedir=".." default="ini:config install">
+		
+	<target name="ini:config install">
+		<description>
+		    generate the ini runtime configuration based on client and
+			stage for all clients and all stages and store it locally
+			in the maven repository - using the ini-maven-plugin
+		</description>
+		<echo message="generating ini runtime configuration for all clients and all stages"/>
+		
+		<echo message="iniRuntimeConfig> mvn -Dmaven.test.skip=true install"/>
+	    <exec executable="cmd" dir="${basedir}/../iniRuntimeConfig">
+	        <arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+	    	<arg value="-Dmaven.test.skip=true"/>
+	    	<arg value="install"/>
+	    </exec>
+
+	</target>
+	
+</project>

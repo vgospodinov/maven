@@ -1,0 +1,6 @@
+<project basedir=".." name="coyote-local" default="_workspace">
+	
+	<property name="client" value="coyote"/>
+	<import file="common.xml"/>
+	
+</project>

@@ -1,0 +1,9 @@
+.settings/
+.classpath
+
+# leave it in for master, as mvn:eclipse:eclipse won't generate for a parent pom
+!.project
+
+target/
+bin/
+libs/

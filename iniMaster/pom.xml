@@ -1,0 +1,641 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.initech.inisys</groupId>
+	<artifactId>iniMaster</artifactId>
+
+	<version>2.0.0-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+
+	<name>iniMaster</name>
+	<description>
+  	     iniMaster - initech order system main module
+    </description>
+
+	<modules>
+
+		<!-- core components -->
+		<module>../iniCore</module>
+		<module>../iniPortal</module>
+		<module>../iniServiceGateway</module>
+		<module>../iniIntegration</module>
+
+		<!-- modules that contain client specific code -->
+		<module>../iniClientCoyote</module>
+		<module>../iniClientAcme</module>
+		<module>../iniClientDaffy</module>
+
+		<!-- just for packaging releases, althrough this could be done in iniMaster, too -->
+		<module>../iniDistribution</module>
+
+		<!-- somewhat independent, could be independent from master build to save 
+			time -->
+		<module>../iniUtils</module>
+
+
+	</modules>
+
+	<properties>
+
+		<!-- initech sys -->
+		<stage>local</stage>  <!-- default value, may be overridden -->
+		<inisys.version>${project.version}</inisys.version>
+		<ini.maven.plugin.version>1.0-SNAPSHOT</ini.maven.plugin.version>
+		
+		<!-- compile settings -->
+		<maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.encoding>UTF8</maven.compiler.encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <resource.filtering.encoding>UTF-8</resource.filtering.encoding>
+
+		<mockito.version>1.8.5</mockito.version>
+		<junit.version>4.8.2</junit.version>
+        
+        <!-- dependency versions -->
+		<spring.version>3.0.5.RELEASE</spring.version>
+		<spring.integration.version>2.0.1.RELEASE</spring.integration.version>
+        <spring.batch.version>2.1.5.RELEASE</spring.batch.version>
+		
+		<hibernate.version>3.5.5-Final</hibernate.version>
+		
+		<cglib.version>2.2</cglib.version> <!-- required for Spring EL -->
+		<javassist.version>3.8.1.GA</javassist.version>
+
+		<c3p0.version>1.0</c3p0.version>
+		<oracle.jdbc.driver.version>11.1.0</oracle.jdbc.driver.version>
+		<mysql.jdbc.driver.version>5.1.14</mysql.jdbc.driver.version>
+
+		<log4j.version>1.2.16</log4j.version>
+		<slf4j.version>1.6.1</slf4j.version>
+		
+		<jasperreports.version>3.7.6</jasperreports.version>
+		<xmlbeans.version>2.4.0</xmlbeans.version>
+		<itext-version>5.0.2</itext-version>
+		<sisu.inject.bean.version>1.4.3.2</sisu.inject.bean.version>
+		<commons.collections.version>3.2.1</commons.collections.version>
+		<commons.dbcp.version>1.4</commons.dbcp.version>
+		<commons.pool.version>1.5.4</commons.pool.version>
+		<commons.lang.version>2.5</commons.lang.version>
+
+		<!-- maven plugin versions -->
+		<compiler.plugin.version>2.3.2</compiler.plugin.version>
+		<maven-jetty-plugin-version>6.1.26RC0</maven-jetty-plugin-version>
+		<maven.eclipse.plugin.version>2.8</maven.eclipse.plugin.version>
+		<maven.war.plugin.version>2.1.1</maven.war.plugin.version>
+		<maven.surefire.plugin.version>2.6</maven.surefire.plugin.version>
+		<maven.resources.plugin.version>2.4.3</maven.resources.plugin.version>
+		<commons.discovery.version>0.4</commons.discovery.version>
+		
+		<!-- web related dependency version -->
+		<servlet.api.version>2.5</servlet.api.version>
+		<gwt.version>1.7.1</gwt.version>
+		<gwtext.version>2.0.5</gwtext.version>
+
+        <!-- 
+		<gwt.maven.plugin.version>1.2</gwt.maven.plugin.version>
+		<radeox-version>1.1-b2</radeox-version>
+		<hibernate-search-version>3.2.1.Final</hibernate-search-version>
+		<lucene-analyzers-version>3.0.2</lucene-analyzers-version>
+		<quartz-version>1.8.3</quartz-version>
+		<springsecurity-version-version>3.0.3.RELEASE</springsecurity-version-version>
+		<commons-httpclient-version>3.1</commons-httpclient-version>
+		<commons.codec.version>1.3</commons.codec.version>
+		<axis-version>1.4</axis-version>
+		<emma-maven-plugin-version>1.0-alpha-2</emma-maven-plugin-version>
+         -->
+
+	</properties>
+
+
+	<profiles>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<stage>prod</stage>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>integ</id>
+			<properties>
+				<stage>integ</stage>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>devel</id>
+			<properties>
+				<stage>devel</stage>
+			</properties>
+		</profile>
+
+		<!-- do we really need this or is local just the default? -->
+		<profile>
+			<id>local</id>
+			<properties>
+				<stage>local</stage>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>hudson</id>
+			<properties>
+				<stage>hudson</stage>
+			</properties>
+		</profile>
+		
+		
+		
+		<profile>
+			<id>coyote</id>
+			<properties>
+				<client>coyote</client>
+			</properties>
+			<dependencies>
+			    <dependency>
+				    <groupId>com.initech.inisys.client.config</groupId>
+				    <artifactId>coyote-${stage}</artifactId>
+				    <version>1.0.0</version>
+			    </dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>acme</id>
+			<properties>
+				<client>acme</client>
+			</properties>
+			<dependencies>
+			    <dependency>
+				    <groupId>com.initech.inisys.client.config</groupId>
+				    <artifactId>acme-${stage}</artifactId>
+				    <version>1.0.0</version>
+			    </dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>daffy</id>
+			<properties>
+				<client>daffy</client>
+			</properties>
+			<dependencies>
+			    <dependency>
+				    <groupId>com.initech.inisys.client.config</groupId>
+				    <artifactId>daffy-${stage}</artifactId>
+				    <version>1.0.0</version>
+			    </dependency>
+			</dependencies>
+		</profile>
+
+
+	</profiles>
+
+
+	<!-- It's a common practice to define all possible dependencies of the child 
+		projects under "dependencyManagement". Whenever a dependency is defined here, 
+		child projects are allowed to include the same dependencies without specifying 
+		a version. This way it's possible to centralize the management of dependency 
+		versions in just one place. Note that a dependency under "dependencyManagement" 
+		is not automatically a dependency of iniMaster (or any child module). Unfortunately 
+		this does only work for dependency versions, not for the versions of maven 
+		plugins. -->
+	<dependencyManagement>
+
+		<dependencies>
+		
+			<!-- ini dependencies -->
+			<dependency>
+				<groupId>com.initech.inisys</groupId>
+				<artifactId>iniCore</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.initech.inisys</groupId>
+				<artifactId>iniIntegration</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.initech.inisys</groupId>
+				<artifactId>iniServiceGateway</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+
+            <!-- Testing -->
+			<dependency>
+		        <groupId>org.springframework</groupId>
+		        <artifactId>spring-test</artifactId>
+		        <version>${spring.version}</version>
+		        <scope>test</scope>
+		    </dependency>
+		    <dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<scope>test</scope>
+				<version>${junit.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<scope>test</scope>
+				<version>${mockito.version}</version>
+			</dependency>
+
+		    <!-- Spring -->
+		    <dependency>
+		        <groupId>org.springframework</groupId>
+		        <artifactId>spring-core</artifactId>
+		        <version>${spring.version}</version>
+		    </dependency>
+		    <dependency>
+		        <groupId>org.springframework</groupId>
+		        <artifactId>spring-beans</artifactId>
+		        <version>${spring.version}</version>
+		    </dependency>
+		    <dependency>
+		        <groupId>org.springframework</groupId>
+		        <artifactId>spring-aop</artifactId>
+		        <version>${spring.version}</version>
+		    </dependency>
+		    <dependency>
+		        <groupId>org.springframework</groupId>
+		        <artifactId>spring-orm</artifactId>
+		        <version>${spring.version}</version>
+		    </dependency>
+		    <dependency>
+		        <groupId>org.springframework</groupId>
+		        <artifactId>spring-web</artifactId>
+		        <version>${spring.version}</version>
+		    </dependency>
+		    
+		    
+		    <!--   Spring Integration   -->
+		    <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-core</artifactId>
+                <version>${spring.integration.version}</version>
+            </dependency>
+		    <dependency>
+		        <groupId>org.springframework.integration</groupId>
+		        <artifactId>spring-integration-mail</artifactId>
+		        <version>${spring.integration.version}</version>
+		    </dependency>
+		    <dependency>
+	            <groupId>org.springframework.integration</groupId>
+	            <artifactId>spring-integration-file</artifactId>
+	            <version>${spring.integration.version}</version>
+	        </dependency>
+		    <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-ftp</artifactId>
+                <version>${spring.integration.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-sftp</artifactId>
+                <version>${spring.integration.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-jdbc</artifactId>
+                <version>${spring.integration.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-http</artifactId>
+                <version>${spring.integration.version}</version>
+            </dependency>
+		
+		
+		    <dependency>
+			    <groupId>org.springframework.batch</groupId>
+			    <artifactId>spring-batch-core</artifactId>
+			    <version>${spring.batch.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<version>${cglib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-annotations</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			 <dependency>
+	            <groupId>org.hibernate</groupId>
+	            <artifactId>hibernate-c3p0</artifactId>
+	            <version>${hibernate.version}</version>
+	        </dependency>
+	        <dependency>
+			    <groupId>com.googlecode.ibaguice.datasource</groupId>
+			    <artifactId>ibaguice-c3p0</artifactId>
+			    <version>${c3p0.version}</version>
+			</dependency>
+            <dependency>
+			    <groupId>com.initech.ini.thirdparty</groupId>
+			    <artifactId>mysql-jdbc-driver</artifactId>
+			    <version>${mysql.jdbc.driver.version}</version>
+			</dependency>
+			<dependency>
+                <groupId>com.initech.ini.thirdparty</groupId>
+                <artifactId>oracle-jdbc-java6</artifactId>
+                <version>${oracle.jdbc.driver.version}</version>
+            </dependency>
+			
+			<dependency>
+			    <groupId>org.sonatype.sisu</groupId>
+			    <artifactId>sisu-inject-bean</artifactId>
+			    <version>${sisu.inject.bean.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<scope>provided</scope>
+				<version>${servlet.api.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-servlet</artifactId>
+				<version>${gwt.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.gwtext</groupId>
+				<artifactId>gwtext</artifactId>
+				<version>${gwtext.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>${gwt.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+			
+			<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports</artifactId>
+				<version>${jasperreports.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.xmlbeans</groupId>
+				<artifactId>xmlbeans</artifactId>
+				<version>${xmlbeans.version}</version>
+			</dependency>
+			<dependency>
+	            <groupId>commons-collections</groupId>
+	            <artifactId>commons-collections</artifactId>
+	            <version>${commons.collections.version}</version>
+	        </dependency>
+	        <dependency>
+                <groupId>commons-dbcp</groupId>
+                <artifactId>commons-dbcp</artifactId>
+                <version>${commons.dbcp.version}</version>
+                <exclusions>
+                   <exclusion>
+                      <groupId>commons-pool</groupId>
+                      <artifactId>commons-pool</artifactId>
+                   </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>commons-pool</groupId>
+                <artifactId>commons-pool</artifactId>
+                <version>${commons.pool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons.lang.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-discovery</groupId>
+                <artifactId>commons-discovery</artifactId>
+                <version>${commons.discovery.version}</version>
+            </dependency>
+	        <dependency>
+	            <groupId>javassist</groupId>
+	            <artifactId>javassist</artifactId>
+	            <version>${javassist.version}</version>
+	        </dependency>
+
+
+
+		</dependencies>
+
+	</dependencyManagement>
+
+
+	<!-- Beware to put only those dependencies here in the master pom, that 
+		are are absolutly required by all ini projetcts. That would be pretty much 
+		only jUnit, log4j and mockito. Heavyweights like Spring or hibernate are 
+		certainly not required by all child modules, so they are out. -->
+	<dependencies>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+			   <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+
+	</dependencies>
+
+
+	<build>
+
+		<pluginManagement>
+			<plugins>
+				
+				<!-- ini related plugins -->
+				<plugin>
+					<groupId>com.initech.inisys.maven</groupId>
+					<artifactId>ini-maven-plugin</artifactId>
+					<version>${ini.maven.plugin.version}</version>
+				</plugin>
+				
+				<!-- basic maven plugins -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.plugin.version}</version>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${compiler.plugin.version}</version>
+				</plugin>
+				<plugin>
+		            <groupId>org.codehaus.mojo</groupId>
+		            <artifactId>xmlbeans-maven-plugin</artifactId>
+		            <version>${xmlbeans-maven-plugin-version}</version>
+		         </plugin>
+		         <plugin>
+			         <groupId>org.apache.maven.plugins</groupId>
+			         <artifactId>maven-resources-plugin</artifactId>
+			         <version>${maven.resources.plugin.version}</version>
+	             </plugin>
+				
+				
+			</plugins>
+		</pluginManagement>
+
+
+
+		<plugins>
+
+            <!-- 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>emma-maven-plugin</artifactId>
+				<inherited>true</inherited>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>instrument</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			 -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<forkMode>once</forkMode>
+					<reportFormat>xml</reportFormat>
+					<!-- 
+					<classesDirectory>${project.build.directory}/generated-classes/emma/classes</classesDirectory>
+					 -->
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*IntegrationTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+    
+			<plugin>
+				<groupId>com.initech.inisys.maven</groupId>
+				<artifactId>ini-maven-plugin</artifactId>
+				<executions>
+				    <execution>
+				        <phase>validate</phase>
+				        <goals><goal>includeConfig</goal></goals>
+				    </execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>${maven.compiler.encoding}</encoding>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>${maven.eclipse.plugin.version}</version>
+				<configuration>
+					<!-- <wtpversion>1.5</wtpversion> -->
+					<!-- <additionalProjectnatures> <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature> 
+						</additionalProjectnatures> <additionalBuildcommands> <buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand> 
+						</additionalBuildcommands> -->
+					<downloadSources>false</downloadSources>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-resources-plugin</artifactId>
+		        <configuration>
+		          <encoding>${resource.filtering.encoding}</encoding>
+		        </configuration>
+	        </plugin>
+			
+		</plugins>
+	</build>
+
+
+
+	<reporting>
+		<plugins>
+		<!-- 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>emma-maven-plugin</artifactId>
+				<version>${emma-maven-plugin-version}</version>
+				<inherited>true</inherited>
+			</plugin>
+		-->
+			<plugin> 
+		        <groupId>org.codehaus.mojo</groupId> 
+		        <artifactId>surefire-report-maven-plugin</artifactId> 
+		        <inherited>true</inherited>
+		        <version>${maven.surefire.plugin.version}</version>
+		    </plugin>  
+		</plugins>
+	</reporting>
+
+
+</project>

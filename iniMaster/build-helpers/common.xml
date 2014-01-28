@@ -1,0 +1,166 @@
+<project name="commonly used targets - do not use directly">
+
+	<!--  this all only makes sense for the local stage, so this is default -->
+    <property name="stage" value="local"/>
+	
+	<loadproperties srcfile="${basedir}/build-helpers/debug.properties"/>
+	<property environment="env"/>
+	
+	<target name="_workspace">
+		<description>
+			prepare Eclipse workspace in order to be able to exececute
+		    developer integration tests using a concrete database and
+		    a spring application context
+		</description>
+		<echo message="preparing eclipse workspace for ${client}-${stage}"/>
+		<echo message="iniMaster> mvn -Dmaven.test.skip=true -P${client},${stage} process-resources eclipse:eclipse"/>
+		<exec executable="cmd" dir="${basedir}">
+	        <arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="-P${client},${stage}"/>
+	    	<arg value="process-resources"/>
+	    	<arg value="eclipse:eclipse"/>
+	    </exec>
+	</target>
+	
+	
+	<target name="core:install">
+		<description>
+			install iniCore into local maven repository
+		</description>
+		<echo message="installing iniCore ${client}-${stage}"/>
+		<echo message="iniCore> mvn -P${client},${stage} clean install"/>
+		<exec executable="cmd" dir="${basedir}/../iniCore/">
+	        <arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-P${client},${stage}"/>
+			<arg value="clean"/>
+			<arg value="install"/>
+	    </exec>
+	</target>
+	
+	
+	
+	
+	<target name="all:install">
+		<description>
+			install iniCore into local maven repository
+		</description>
+		<echo message="installing all ${client}-${stage}"/>
+		<echo message="iniCore> mvn -P${client},${stage} install"/>
+		<exec executable="cmd" dir="${basedir}/">
+	        <arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-P${client},${stage}"/>
+	    	<arg value="install"/>
+	    </exec>
+	</target>
+	
+	
+	<target name="serviceGateway:start">
+		<description>
+			start iniServiceGateway component using the maven-jetty plugin
+		</description>
+		<echo message="iniServiceGateway start for ${client}-${stage}"/>
+		<echo message="debug port 4001"/>
+		<echo message="running on http://localhost:7777/iniSGW"/>
+		<echo message="iniServiceGateway> mvn -Dmaven.test.skip=true -P${client},${stage} jetty:run"/>
+		<echo message="M2_OPTS=${ini.serviceGateway.http.debug}"/>
+		<exec executable="cmd" dir="${basedir}/../iniServiceGateway/">
+			<env key="MAVEN_OPTS" value="${ini.serviceGateway.http.debug}"/>
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="-P${client},${stage}"/>
+			<arg value="jetty:run"/>
+	    </exec>
+	</target>
+		
+	<target name="serviceGateway:stop">
+		<description>
+		    stop iniServiceGateway component using the maven-jetty plugin
+		</description>
+		<echo message="iniServiceGateway stop for ${client}-${stage}"/>
+		<echo message="iniServiceGateway> mvn -Dmaven.test.skip=true -P${client},${stage} jetty:stop"/>
+		<exec executable="cmd" dir="${basedir}/../iniServiceGateway">
+	        <arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+	    	<arg value="-P${client},${stage}"/>
+	    	<arg value="jetty:stop"/>
+	    </exec>
+	</target>
+	
+	<target name="portal:start">
+		<description>
+			start iniPortal component using the maven-jetty plugin
+		</description>
+		<echo message="iniPortal start for ${client}-${stage}"/>
+		<echo message="debug port 4003"/>
+		<echo message="running on http://localhost:5080/iniPortal"/>
+		<echo message="iniPortal> mvn -Dmaven.test.skip=true -P${client},${stage} jetty:run"/>
+		<echo message="M2_OPTS=${ini.portal.http.debug}"/>
+		<exec executable="cmd" dir="${basedir}/../iniPortal/">
+			<env key="MAVEN_OPTS" value="${ini.portal.http.debug}"/>
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="-P${client},${stage}"/>
+			<arg value="jetty:run"/>
+	    </exec>
+	</target>
+	
+	<target name="portal:stop">
+		<description>
+		    stop iniPortal component using the maven-jetty plugin
+		</description>
+		<echo message="iniPortal stop for ${client}-${stage}"/>
+		<echo message="iniPortal> mvn -Dmaven.test.skip=true -P${client},${stage} jetty:stop"/>
+		<exec executable="cmd" dir="${basedir}/../iniPortal">
+	        <arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+	    	<arg value="-P${client},${stage}"/>
+	    	<arg value="jetty:stop"/>
+	    </exec>
+	</target>
+	
+	
+	<target name="sci:start">
+		<description>
+			start iniSCI component using the maven-jetty plugin
+		</description>
+		<echo message="iniSCI start for ${client}-${stage}"/>
+		<echo message="debug port 4002"/>
+		<echo message="http://localhost:6080/iniSCI"/>
+		<echo message="iniSCI> mvn -Dmaven.test.skip=true -P${client},${stage} jetty:run"/>
+		<echo message="M2_OPTS=${ini.SCI.http.debug}"/>
+		<exec executable="cmd" dir="${basedir}/../iniSCI/">
+			<env key="MAVEN_OPTS" value="${ini.SCI.http.debug}"/>
+			<arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+			<arg value="-P${client},${stage}"/>
+			<arg value="jetty:run"/>
+	    </exec>
+	</target>
+	
+	<target name="sci:stop">
+		<description>
+		    stop iniSCI component using the maven-jetty plugin
+		</description>
+		<echo message="iniSCI stop for ${client}-${stage}"/>
+		<echo message="iniSCI> mvn -Dmaven.test.skip=true -P${client},${stage} jetty:stop"/>
+		<exec executable="cmd" dir="${basedir}/../iniSCI">
+	        <arg value="/c"/>
+	    	<arg value="mvn.bat"/>
+			<arg value="-Dmaven.test.skip=true"/>
+	    	<arg value="-P${client},${stage}"/>
+	    	<arg value="jetty:stop"/>
+	    </exec>
+	</target>
+	
+	
+	
+</project>

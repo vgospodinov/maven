@@ -1,0 +1,136 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>com.initech.inisys</groupId>
+  <artifactId>iniServiceGateway</artifactId>
+  
+  <packaging>war</packaging>
+  
+  <parent>
+      <groupId>com.initech.inisys</groupId>
+      <artifactId>iniMaster</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
+      <relativePath>../iniMaster/pom.xml</relativePath>
+  </parent>
+  
+  <name>iniServiceGateway</name>
+  
+  <dependencies>
+        
+        <dependency>
+            <groupId>com.initech.inisys</groupId>
+            <artifactId>iniCore</artifactId>
+        </dependency>
+        
+        <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-web</artifactId>
+	    </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-core</artifactId>
+	    </dependency>
+	
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-beans</artifactId>
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-aop</artifactId>
+	    </dependency>
+	
+	    <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-orm</artifactId>
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>org.springframework.integration</groupId>
+	        <artifactId>spring-integration-mail</artifactId>
+	    </dependency>
+	
+	    <dependency>
+	        <groupId>cglib</groupId>
+	        <artifactId>cglib-nodep</artifactId>           
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>org.hibernate</groupId>
+	        <artifactId>hibernate-core</artifactId>
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>org.hibernate</groupId>
+	        <artifactId>hibernate-annotations</artifactId>
+	    </dependency>
+	    
+	    <dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		</dependency>
+	    
+        <dependency>
+		    <groupId>org.apache.xmlbeans</groupId>
+		    <artifactId>xmlbeans</artifactId>
+		</dependency>
+        
+        
+  </dependencies>
+  
+  
+  <profiles>
+      
+      <!-- This is a case to add a dependency to the service gateway only for a selected stage 
+      <profile>
+          <id>daffy</id>
+          <activation>
+              <property>
+                  <name>client</name>
+                  <value>daffy</value>
+              </property>
+          </activation>
+          <dependencies>
+              <dependency>
+                  <groupId>com.initech.inisys</groupId>
+                  <artifactId>iniServiceGatewaydaffy</artifactId>
+              </dependency>
+          </dependencies>
+      </profile>
+      -->
+      
+      
+  </profiles>
+  
+    <build>
+      <finalName>iniSGW</finalName>
+      <plugins>
+          <plugin>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>maven-jetty-plugin</artifactId>
+            <version>${maven-jetty-plugin-version}</version>
+            <configuration>
+                <contextPath>/iniSGW</contextPath>
+                <stopPort>9998</stopPort>
+                <stopKey>foo</stopKey>
+                <connectors>
+                    <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                        <port>7777</port>
+                        <maxIdleTime>60000</maxIdleTime>
+                    </connector>
+                </connectors>
+            </configuration>
+        </plugin>
+      </plugins>
+  </build>
+
+  
+</project>

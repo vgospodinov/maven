@@ -1,0 +1,6 @@
+<project basedir=".." name="daffy-local" default="_workspace">
+	
+	<property name="client" value="daffy"/>
+	<import file="common.xml"/>
+
+</project>
